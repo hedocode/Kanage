@@ -1,0 +1,2 @@
+# Kanage
+Manager
