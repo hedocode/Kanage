@@ -1,29 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<FlowPane fx:controller="viewmodel.Main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <TabPane fx:id="tabs" prefHeight="400.0" prefWidth="300.0" tabClosingPolicy="UNAVAILABLE">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewmodel.Main">
+   <left>
+      <TabPane fx:id="tabs" prefHeight="400.0" prefWidth="300.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <Tab text="Users">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ListView fx:id="userlist" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" />
-                     </children></AnchorPane>
+                        <ListView fx:id="userlist" layoutX="14.0" layoutY="14.0" prefHeight="347.0" prefWidth="276.0" onMouseClicked="#setCurrent"/>
+                     </children>
+                  </AnchorPane>
             </content>
           </Tab>
           <Tab text="Projects">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView layoutX="14.0" layoutY="14.0" prefHeight="339.0" prefWidth="275.0" />
+                     </children>
+                  </AnchorPane>
             </content>
           </Tab>
         </tabs>
       </TabPane>
-   </children>
-</FlowPane>
+   </left>
+   <center>
+      <GridPane BorderPane.alignment="CENTER">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="150.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <TextField fx:id="champnom" GridPane.columnIndex="1" />
+            <Label text="Nom" GridPane.halignment="RIGHT" />
+            <Label text="Prenom" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+            <TextField fx:id="champprenom" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label layoutX="10.0" layoutY="201.0" text="Date de naissance" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+            <DatePicker fx:id="cdn" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+   </center>
+</BorderPane>

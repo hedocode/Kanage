@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<Materials>
+    <Material>
+        <Name>tools</Name>
+    </Material>
+
+    <Material>
+        <Name>Food</Name>
+    </Material>
+
+    <Material>
+        <Name>Drinks</Name>
+    </Material>
+
+    <Material>
+        <Name>tools</Name>
+    </Material>
+
+    <Material>
+        <Name>tools</Name>
+    </Material>
+
+</Materials>

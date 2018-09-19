@@ -16,13 +16,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-
-
         Parent root = FXMLLoader.load(getClass().getResource("../fxml/sample.fxml"));
         primaryStage.setTitle("Kanage");
         primaryStage.setScene(new Scene(root, screenDimension.width/2 , screenDimension.height/2));
         primaryStage.show();
-
 
     }
 
