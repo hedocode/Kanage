@@ -1,13 +1,30 @@
 package model;
 
+import javafx.beans.InvalidationListener;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class User {
+public class User extends Observable {
     private String firstName;
     private String lastName;
     private String nickName;
     private LocalDate birthDate;
+
+    private List<Observer> observers = new ArrayList<>();
+
+    private PropertyChangeListener pcl = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            observers.forEach(observer -> observer.update( (Observable)evt.getSource(), null));
+        }
+    };
 
     public User(String firstName, String secondName, LocalDate birthDate){
         this.firstName = firstName;
@@ -26,6 +43,7 @@ public class User {
 
     public void setNom(String nom){ lastName = nom; }
     public void setPrenom(String prenom){ firstName = prenom; }
+    public void setBirthDate(LocalDate date){birthDate = date;}
 
     @Override
     public String toString(){
