@@ -1,30 +1,36 @@
 package model;
 
-import javafx.beans.InvalidationListener;
-
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
-public class User extends Observable {
+public class User {
+
     private String firstName;
     private String lastName;
     private String nickName;
     private LocalDate birthDate;
 
-    private List<Observer> observers = new ArrayList<>();
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+    public String getNickName() { return nickName; }
+    public void setNickName(String nickName) { this.nickName = nickName; }
+    public LocalDate getBirthDate() { return birthDate; }
+    public void setBirthDate(LocalDate birthDate) { this.birthDate = birthDate; }
 
-    private PropertyChangeListener pcl = new PropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            observers.forEach(observer -> observer.update( (Observable)evt.getSource(), null));
-        }
-    };
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.pcs.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.pcs.removePropertyChangeListener(listener);
+    }
+
 
     public User(String firstName, String secondName, LocalDate birthDate){
         this.firstName = firstName;
@@ -36,14 +42,6 @@ public class User extends Observable {
     public int getAge(){
         return (int)LocalDate.from(birthDate).until(LocalDate.now(), ChronoUnit.YEARS);
     }
-
-    public String getNom() { return lastName; }
-    public String getPrenom() { return firstName; }
-    public LocalDate getBirthDate(){return birthDate;}
-
-    public void setNom(String nom){ lastName = nom; }
-    public void setPrenom(String prenom){ firstName = prenom; }
-    public void setBirthDate(LocalDate date){birthDate = date;}
 
     @Override
     public String toString(){

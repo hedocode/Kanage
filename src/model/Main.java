@@ -1,4 +1,4 @@
-package maine;
+package model;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +16,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        Parent root = FXMLLoader.load(getClass().getResource("../fxml/sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../view/sample.fxml"));
         primaryStage.setTitle("Kanage");
         primaryStage.setScene(new Scene(root, screenDimension.width/2 , screenDimension.height/2));
         primaryStage.show();
