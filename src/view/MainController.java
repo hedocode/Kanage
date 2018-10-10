@@ -1,5 +1,6 @@
 package view;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -11,7 +12,7 @@ import viewmodel.UserVM;
 
 import java.time.LocalDate;
 
-public class VMain {
+public class MainController {
 
     private UserManagerVM userManagerVM = new UserManagerVM();
 
@@ -82,27 +83,13 @@ public class VMain {
             champnom.textProperty().bindBidirectional(nom);
             champprenom.textProperty().bindBidirectional(prenom);
             date.bindBidirectional(datepicker.valueProperty());
-            setCurrent();
         }
     }
 
     @FXML
-    private void setCurrent(){
-        UserVM u = userlist.getSelectionModel().getSelectedItem();
-        setIndex(userlist.getSelectionModel().getSelectedIndex());
-
-        setNom(u.getUser().getLastName());
-        setPrenom(u.getUser().getFirstName());
-        System.out.println(u.getUser().getBirthDate());
-        datepicker.setValue(u.getUser().getBirthDate());
-        System.out.println(date);
-    }
-
-    @FXML
     private void initialize() {
-        setData();
 
-        userManagerVM.getUsers().forEach(user -> System.out.println(user.getUser().toString()));
+        userManagerVM.getUsers().forEach(user -> System.out.println(user.getText()));
 
         userManagerVM.usersProperty().addListener((observable, oldValue, newValue) -> {  });
 
@@ -112,7 +99,7 @@ public class VMain {
             @Override
             public String toString(Number object) {
                 try{
-                    return userManagerVM.getUsers().get((Integer)object).getUser().getLastName();
+                    return userManagerVM.getUsers().get((Integer)object).getLastName();
                 }
                 catch(IndexOutOfBoundsException e){
 
@@ -126,28 +113,30 @@ public class VMain {
             }
         });
 
-        userlist.setCellFactory(new Callback<>() {
-            private int created;
-
+        userlist.setCellFactory(__ -> new ListCell<UserVM>(){
             @Override
-            public ListCell<UserVM> call(ListView<UserVM> param) {
-                created++;
-                return new ListCell<>() {
-                    protected void updateItem(UserVM value, boolean empty) {
-                        super.updateItem(value, empty);
-                        try{
-                            textProperty().bind(value.textProperty());
-                        } catch (NullPointerException e){
-                            System.err.println(e.getMessage());
-                        }
-                    }
-                };
+            protected void updateItem(UserVM item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if(!empty){
+                    textProperty().bind(Bindings.concat(item.getText()));
+                }else{
+                    textProperty().unbind();
+                    setText("");
+                }
             }
         });
 
         userlist.itemsProperty().bind(userManagerVM.usersProperty());
 
-        userlist.getSelectionModel().selectFirst();
+        userlist.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(oldValue!=null){
+                champnom.textProperty().unbindBidirectional(oldValue.firstNameProperty());
+            }
+            if(newValue!=null){
+                champnom.textProperty().bindBidirectional(newValue.firstNameProperty());
+            }
+        });
 
         champnom.textProperty().bindBidirectional(nom);
         champprenom.textProperty().bindBidirectional(prenom);
@@ -172,6 +161,8 @@ public class VMain {
                 return false;
             }
         });
+
+        setData();
 
         //DISABLE BINDINGS
         add.disableProperty().bind(modify);

@@ -1,13 +1,17 @@
 package model.managers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import model.User;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserManager {
-    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
+    private transient PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
+    private List<User> users = new ArrayList<>();
+    public static final String PROP_LIST_USER = "users";
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.pcs.addPropertyChangeListener(listener);
@@ -17,14 +21,16 @@ public class UserManager {
         this.pcs.removePropertyChangeListener(listener);
     }
 
-    private ObservableList<User> users = FXCollections.observableArrayList();
 
     public void addUser(User u){
         users.add(u);
-        //pcs.fireIndexedPropertyChange();
     }
 
-    public ObservableList<User> getUsers(){
+    public void removeUser(User u){
+        users.remove(u);
+    }
+
+    public List<User> getUsers(){
         return users;
     }
 

@@ -12,6 +12,8 @@ public class User {
     private String nickName;
     private LocalDate birthDate;
 
+    public static final String PROP_FN = "firstName";
+
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
     public String getLastName() { return lastName; }
